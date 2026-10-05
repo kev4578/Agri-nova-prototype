@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agri Nova — Digital Livestock Records</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f5f7f4;color:#182018}
+.app{display:flex;min-height:100vh}.side{width:230px;background:#fff;border-right:1px solid #dfe5df;padding:24px 14px}.brand{font-size:23px;font-weight:800;padding:0 10px 25px}.brand small{display:block;font-size:11px;color:#687268;font-weight:500;margin-top:4px}.nav{width:100%;padding:12px;border:0;background:transparent;text-align:left;border-radius:10px;margin:2px 0;cursor:pointer;color:#596259;font-size:14px}.nav.active,.nav:hover{background:#e7eee5;color:#182018;font-weight:700}.main{flex:1;padding:34px;max-width:1100px}.view{display:none}.view.active{display:block}h1{font-size:29px;margin:0 0 6px}h2{font-size:25px;margin:0 0 6px}.sub{color:#687268;font-size:14px;margin-bottom:25px}.cards,.animals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card,.animal,.panel{background:#fff;border:1px solid #dfe5df;border-radius:15px;padding:18px}.label{font-size:12px;color:#687268}.value{font-size:25px;font-weight:800;margin-top:6px}.animals{grid-template-columns:repeat(2,1fr)}.animal{display:flex;justify-content:space-between;align-items:center;gap:12px}.animal h3{font-size:15px;margin:0}.animal p{font-size:12px;color:#687268;margin:5px 0 0}.btn{border:0;border-radius:9px;padding:10px 14px;cursor:pointer;font-weight:700}.primary{background:#dcebd7;color:#182018}.secondary{background:#fff;border:1px solid #cfd8ce;color:#182018}.notice{background:#fff;border:1px solid #dfe5df;border-radius:12px;padding:14px;margin:18px 0;font-size:13px}.profile{display:grid;grid-template-columns:190px 1fr;gap:22px}.tag{height:190px;background:#fff;border:1px solid #dfe5df;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px}.qr{width:105px;height:105px;border:8px solid #fff;box-shadow:0 0 0 1px #bbb;background:repeating-linear-gradient(45deg,#111 0 5px,#fff 5px 10px)}.info{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{border:1px solid #dfe5df;border-radius:11px;padding:12px;background:#fff}.field b{display:block;font-size:11px;color:#687268;font-weight:500;margin-bottom:4px}.field span{font-weight:700;font-size:14px}.actions{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form label{font-size:12px;color:#687268}.form input,.form select{width:100%;padding:11px;margin-top:5px;border:1px solid #cfd8ce;border-radius:9px;background:#fff;font-size:14px}.muted{color:#687268;font-size:12px}@media(max-width:700px){.app{display:block}.side{width:100%;border-right:0;border-bottom:1px solid #dfe5df}.main{padding:22px}.cards,.animals,.profile,.info,.form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+<div class="brand">AGRI NOVA<small>Digital Livestock Records</small></div>
+<button class="nav active" data-view="dashboard">Dashboard</button>
+<button class="nav" data-view="animals">My Livestock</button>
+<button class="nav" data-view="scan">Scan QR Tag</button>
+<button class="nav" data-view="add">Add Animal</button>
+<button class="nav" data-view="sync">Sync & Devices</button>
+</aside>
+<main class="main">
+
+<section id="dashboard" class="view active">
+<h1>Farm Dashboard</h1><div class="sub">Simple livestock records — designed for everyday farm use.</div>
+<div class="cards">
+<div class="card"><div class="label">Total animals</div><div class="value" id="count">24</div></div>
+<div class="card"><div class="label">Records updated</div><div class="value">18</div></div>
+<div class="card"><div class="label">Connection</div><div class="value" style="font-size:18px">Offline ready</div></div>
+</div>
+<div class="notice"><b>Quick action:</b> Scan an animal's QR tag to open its individual record.</div>
+<button class="btn primary" data-goto="scan">Scan an animal</button>
+</section>
+
+<section id="animals" class="view">
+<h2>My Livestock</h2><div class="sub">Individual digital identities for every animal.</div>
+<div class="animals">
+<div class="animal"><div><h3>AN-001 · Cow</h3><p>Jersey · Female · 14/03/2024</p></div><button class="btn secondary" data-profile="AN-001">Open</button></div>
+<div class="animal"><div><h3>AN-017 · Sheep</h3><p>Merino · Female · 08/07/2023</p></div><button class="btn secondary" data-profile="AN-017">Open</button></div>
+<div class="animal"><div><h3>AN-021 · Goat</h3><p>Boer · Male · 19/01/2025</p></div><button class="btn secondary" data-profile="AN-021">Open</button></div>
+<div class="animal"><div><h3>AN-024 · Cow</h3><p>Simmental · Male · 22/05/2024</p></div><button class="btn secondary" data-profile="AN-024">Open</button></div>
+</div></section>
+
+<section id="scan" class="view">
+<h2>Scan QR Tag</h2><div class="sub">Prototype scan simulation — no camera required.</div>
+<div class="tag"><div class="qr"></div><b>AN-001</b><span class="muted">QR livestock identity</span></div>
+<div class="actions"><button class="btn primary" id="simulate">Simulate Scan</button></div>
+<div id="scanresult"></div>
+</section>
+
+<section id="profile" class="view">
+<h2>Animal Record</h2><div class="sub" id="profileSub">AN-001 · Digital identity</div>
+<div class="profile">
+<div class="tag"><div class="qr"></div><b id="profileId">AN-001</b><span class="muted">QR identity</span></div>
+<div>
+<div class="info">
+<div class="field"><b>Species</b><span>Cattle</span></div>
+<div class="field"><b>Breed</b><span>Jersey</span></div>
+<div class="field"><b>Sex</b><span>Female</span></div>
+<div class="field"><b>Date of birth</b><span>14/03/2024</span></div>
+<div class="field"><b>Latest weight</b><span id="weight">486 kg</span></div>
+<div class="field"><b>Vaccination</b><span>Up to date</span></div>
+</div>
+<div class="actions"><button class="btn primary" id="editRecord">Update record</button><button class="btn secondary" data-goto="animals">Back</button></div>
+<div id="editbox"></div>
+</div></div>
+</section>
+
+<section id="add" class="view">
+<h2>Add Animal</h2><div class="sub">Create a digital identity for a new animal.</div>
+<div class="form">
+<label>Animal ID<input id="newid" value="AN-025"></label>
+<label>Species<select><option>Cattle</option><option>Sheep</option><option>Goat</option><option>Pig</option></select></label>
+<label>Breed<input value=""></label><label>Date of birth<input type="date"></label>
+</div>
+<div class="actions"><button class="btn primary" id="addAnimal">Create record</button></div><div id="addresult"></div>
+</section>
+
+<section id="sync" class="view">
+<h2>Sync & Devices</h2><div class="sub">Designed for farms where connectivity is not always reliable.</div>
+<div class="notice"><b>Offline mode:</b> Basic records remain available without an internet connection. Changes can sync when connectivity returns.</div>
+<div class="animals">
+<div class="animal"><div><h3>Farmer's phone</h3><p>Registered · Last sync today 10:42</p></div><b>✓</b></div>
+<div class="animal"><div><h3>Farm worker phone</h3><p>Registered · Last sync today 09:18</p></div><b>✓</b></div>
+</div></section>
+
+</main></div>
+<script>
+const views=document.querySelectorAll('.view'), nav=document.querySelectorAll('.nav');
+function show(id){views.forEach(v=>v.classList.toggle('active',v.id===id));nav.forEach(n=>n.classList.toggle('active',n.dataset.view===id));}
+document.addEventListener('click',e=>{
+const n=e.target.closest('[data-view]'); if(n){show(n.dataset.view);return}
+const g=e.target.closest('[data-goto]'); if(g){show(g.dataset.goto);return}
+const p=e.target.closest('[data-profile]'); if(p){document.getElementById('profileId').textContent=p.dataset.profile;document.getElementById('profileSub').textContent=p.dataset.profile+' · Digital identity';show('profile');}
+});
+document.getElementById('simulate').onclick=()=>{
+document.getElementById('scanresult').innerHTML='<div class="notice"><b>Animal found: AN-001</b><br>Jersey cow · Female · 486 kg<br><button class="btn primary" style="margin-top:9px" id="openfound">Open animal record</button></div>';
+document.getElementById('openfound').onclick=()=>show('profile');
+};
+document.getElementById('editRecord').onclick=()=>{
+document.getElementById('editbox').innerHTML='<div class="form" style="margin-top:14px"><label>Latest weight<input id="newweight" value="490"></label><label>Note<input value="Routine weight update"></label></div><div class="actions"><button class="btn primary" id="save">Save update</button></div>';
+document.getElementById('save').onclick=()=>{document.getElementById('weight').textContent=document.getElementById('newweight').value+' kg';document.getElementById('editbox').innerHTML='<div class="notice"><b>Saved.</b> Record updated and ready to sync.</div>';};
+};
+document.getElementById('addAnimal').onclick=()=>{document.getElementById('addresult').innerHTML='<div class="notice"><b>Prototype record created.</b><br>The animal can now be assigned a QR ear tag.</div>';document.getElementById('count').textContent='25';};
+</script>
+</body>
+</html>
